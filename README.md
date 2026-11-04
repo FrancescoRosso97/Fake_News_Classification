@@ -1,7 +1,7 @@
 # Fake News Classification - Machine Learning Project (Rosso Francesco - 70/83/65482 - Academic Year 25/26)
 
 ## Project Overview
-This project aims to classify news articles as Fake or Real using Machine Learning techniques. It's based on the "Fake and real news dataset" available on Kaggle. The classification system uses a Linear Support Vector Machine (Linear SVM) and TF-IDF (Term Frequency–Inverse Document Frequency) to transform textual information into numerical features. The objective is to train, optimize, and evaluate a single classification model capable of distinguishing between Fake and Real news articles based on their textual content.
+This project aims to classify news articles as "fake" or "real" using Machine Learning techniques. It's based on the "Fake and real news dataset" available on Kaggle. The classification system uses a Linear Support Vector Machine (Linear SVM) and TF-IDF (Term Frequency–Inverse Document Frequency) to transform textual information into numerical features. The objective is to train, optimize, and evaluate a single classification model capable of distinguishing between "fake" and "real" news articles based on their textual content.
 
 ## Dataset
 The dataset contains two CSV files:
