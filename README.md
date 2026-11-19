@@ -1,7 +1,7 @@
 # Fake News Classification - Machine Learning Project (Rosso Francesco - 70/83/65482 - Academic Year 25/26)
 
 ## Project Overview
-This project focuses on the binary classification of news articles as Fake News or Real News based on their textual content. The classification system uses a Support Vector Machine (SVM) with a linear kernel, combined with text preprocessing, TF-IDF feature extraction, feature scaling, and Principal Component Analysis (PCA).
+This project focuses on the binary classification of news articles as Fake News or Real News based on their textual content. The classification system uses a Support Vector Machine (SVM) with a linear kernel, combined with text preprocessing, TF-IDF features extraction, features scaling, and Principal Component Analysis (PCA).
 
 ## Project Workflow
 The project follows these main steps.
@@ -34,7 +34,7 @@ Text preprocessing is performed to prepare the articles for classification. It i
 - Removal of punctuation;
 - Removal of words containing numerical digits.
 
-### TF-IDF Feature Extraction
+### TF-IDF Features Extraction
 
 Text documents are transformed into numerical representations using TF-IDF. The vectorizer uses:
 - English stop-word removal;
@@ -43,13 +43,13 @@ Text documents are transformed into numerical representations using TF-IDF. The 
 - Unigrams and bigrams;
 - Maximum of `2.000` features.
 
-### Feature Scaling
+### Features Scaling
 
 MinMaxScaler is applied to scale the extracted features.
 
 ### Dimensionality Reduction
 
-Principal Component Analysis (PCA) reduces the feature space to `50` principal components.
+Principal Component Analysis (PCA) reduces the features space to `50` principal components.
 
 ### Classification
 
@@ -87,4 +87,4 @@ A confusion matrix is used to visualize correct and incorrect predictions.
 
 Additionally, a pairplot displays the relationships among the first three principal components, using the training samples from the first external split.
 
-The pairplot is intended for exploratory visualization of the feature distribution and does not directly measure SVM classification performance.
+The pairplot is intended for exploratory visualization of the features distribution and does not directly measure SVM classification performance.
