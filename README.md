@@ -1,10 +1,12 @@
 # Fake News Classification - Machine Learning Project (Rosso Francesco - 70/83/65482 - Academic Year 25/26)
 
 ## Project Overview
-This project aims to classify news articles as "fake" or "real" using Machine Learning techniques. It's based on the "Fake and real news dataset" available on Kaggle. The classification system uses a Linear Support Vector Machine (Linear SVM) and TF-IDF (Term Frequency–Inverse Document Frequency) to transform textual information into numerical features. The objective is to train, optimize, and evaluate a single classification model capable of distinguishing between "fake" and "real" news articles based on their textual content.
+This project focuses on the binary classification of news articles as Fake News or Real News based on their textual content. The classification system uses a Support Vector Machine (SVM) with a linear kernel, combined with text preprocessing, TF-IDF feature extraction, feature scaling, and Principal Component Analysis (PCA).
 
-## Dataset
-The dataset contains two CSV files:
+## Project Workflow
+The project follows these main steps.
+### Dataset Loading
+The dataset used is the Fake and Real News Dataset, available on Kaggle. It consists of two CSV files:
 - `Fake.csv` – articles labeled as fake;
 - `True.csv` – articles labeled as real.
 
@@ -16,89 +18,73 @@ Each article contains the following fields:
 - `subject` – news category;
 - `date` – publication date.
 
-The `title` and `text` columns were combined to create a single textual input feature.
+The two classes are encoded as follows:
+- `0` = Fake;
+- `1` = Real.
 
-A binary target variable was defined:
-- 0 = Fake;
-- 1 = Real.
+### Dataset Preparation
+A balanced subset of `16.000` articles is selected, containing `8.000` fake news articles and `8.000` real news articles. This balanced distribution ensures that both classes are equally represented in the selected dataset. 
 
-## Dataset Balancing
-A balanced subset of 16000 articles was selected:
-- 8000 Fake articles;
-- 8000 Real articles.
+The `title` and `text` columns of articles are combined to create a single textual input feature.
 
-This balanced distribution ensures that both classes are equally represented in the selected dataset.
+### Text Preprocessing
+Text preprocessing is performed to prepare the articles for classification. It includes:
+- Conversion to lowercase;
+- Removal of text enclosed in square brackets;
+- Removal of punctuation;
+- Removal of words containing numerical digits.
 
-The dataset was divided into:
-- Training set: 11200 articles (70%);
-- Test set: 4800 articles (30%).
+### TF-IDF Feature Extraction
 
-## Project Workflow
-The project follows these main steps:
+Text documents are transformed into numerical representations using TF-IDF. The vectorizer uses:
+- English stop-word removal;
+- max_df = `0.7`;
+- min_df = `5`;
+- Unigrams and bigrams;
+- Maximum of `2.000` features.
 
-### Dataset Loading and Preparation
-The two CSV files were loaded and combined into a single dataset. 
+### Feature Scaling
 
-Text preprocessing was performed to prepare the articles for classification.
+MinMaxScaler is applied to scale the extracted features.
 
-The main operations included:
-- Conversion of text to lowercase;
-- Removal of punctuation and numbers;
-- Concatenation of `title` and `text`;
-- Creation of binary class labels.
+### Dimensionality Reduction
 
-### Feature Extraction
-Textual data was transformed into numerical features using TF-IDF vectorization.
+Principal Component Analysis (PCA) reduces the feature space to `50` principal components.
 
-TF-IDF and the classifier were combined into a Scikit-learn Pipeline.
+### Classification
 
-### Classification Model
-The selected classification algorithm was Linear Support Vector Machine (Linear SVM), implemented using LinearSVC from Scikit-learn.
+A Support Vector Machine with a linear kernel is used for binary classification. The regularization parameter `C` is optimized using GridSearchCV with the following candidate values:
 
-Only one classifier was used in this project.
+`[0.01, 0.1, 1, 10 100]`
 
-The model was trained on the training dataset and subsequently evaluated on the independent test set.
+### Model Validation
 
-### Hyperparameter Optimization
-Hyperparameter optimization was performed using GridSearchCV with 3-fold cross-validation.
+Five external ShuffleSplit partitions are generated, using:
 
-The following values of the regularization parameter C were tested:
-- C = 0.1;
-- C = 1;
-- C = 10.
+- `70%` of the dataset for training (`11200` articles);
 
-The best parameter was: C = 1. The best mean cross-validation accuracy was 98.60%.
+- `30%` of the dataset for testing (`4800` articles).
 
-### Model Evaluation
-The trained model was evaluated on the test set using:
-- Accuracy;
-- Precision;
-- Recall;
-- F1-score;
-- Confusion Matrix.
+An internal three-fold cross-validation procedure selects the regularization parameter `C`.
 
-Both macro and weighted averages were calculated for the classification metrics.
+### Performance Evaluation
 
-### Error Analysis
-The incorrectly classified articles were identified and analyzed by comparing the predicted labels with the actual labels.
+The model is evaluated using:
 
-The model produced:
-- 28 Fake articles incorrectly classified as Real;
-- 22 Real articles incorrectly classified as Fake.
+- Accuracy for each external split;
+- Mean accuracy and standard deviation;
+- Precision for each class;
+- Recall for each class;
+- F1-score for each class;
+- Support for each class;
+- Confusion matrix.
 
-A total of 50 articles were incorrectly classified.
+Class-specific metrics and the confusion matrix aggregate predictions from the five external test splits. Since ShuffleSplit can select the same article in multiple test sets, these predictions do not necessarily correspond to unique articles.
 
-### Data visualization
-Data visualization techniques were used to explore the distribution of Fake and Real news articles.
+### Data Visualization
 
-The visualizations include:
-- Class distribution bar chart;
-- Hyperparameter optimization plot;
-- Confusion Matrix;
-- Two-dimensional t-SNE visualization.
+A confusion matrix is used to visualize correct and incorrect predictions.
 
-For the t-SNE visualization, a balanced sample of 2000 articles was selected, containing 1000 Fake and 1000 Real articles.
+Additionally, a pairplot displays the relationships among the first three principal components, using the training samples from the first external split.
 
-TF-IDF features were first reduced using TruncatedSVD, followed by t-SNE to obtain a two-dimensional representation.
-
-The visualization allows the distribution of the two classes to be explored without introducing additional classification models.
+The pairplot is intended for exploratory visualization of the feature distribution and does not directly measure SVM classification performance.
